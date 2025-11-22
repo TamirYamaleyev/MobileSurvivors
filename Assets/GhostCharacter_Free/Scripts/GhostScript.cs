@@ -143,7 +143,7 @@ public class GhostScript : MonoBehaviour
     // play a animation of Attack
     private void PlayerAttack ()
     {
-        if(Input.GetKeyDown(KeyCode.A))
+        //if(Input.GetKeyDown(KeyCode.A))
         {
             Anim.CrossFade(AttackState,0.1f,0,0);
         }
@@ -185,7 +185,7 @@ public class GhostScript : MonoBehaviour
     private void MOVE ()
     {
         // velocity
-        if(Anim.GetCurrentAnimatorStateInfo(0).fullPathHash == MoveState)
+        //if(Anim.GetCurrentAnimatorStateInfo(0).fullPathHash == MoveState)
         {
             if (Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
             {
@@ -204,8 +204,8 @@ public class GhostScript : MonoBehaviour
                 MOVE_Velocity(new Vector3(-Speed, 0, 0), new Vector3(0, 270, 0));
             }
         }
-        KEY_DOWN();
-        KEY_UP();
+        //KEY_DOWN();
+        //KEY_UP();
     }
     //---------------------------------------------------------------------
     // value for moving
@@ -224,66 +224,66 @@ public class GhostScript : MonoBehaviour
     //---------------------------------------------------------------------
     // whether arrow key is key down
     //---------------------------------------------------------------------
-    private void KEY_DOWN ()
-    {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            Anim.CrossFade(MoveState, 0.1f, 0, 0);
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            Anim.CrossFade(MoveState, 0.1f, 0, 0);
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            Anim.CrossFade(MoveState, 0.1f, 0, 0);
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            Anim.CrossFade(MoveState, 0.1f, 0, 0);
-        }
-    }
+    //private void KEY_DOWN ()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.UpArrow))
+    //    {
+    //        Anim.CrossFade(MoveState, 0.1f, 0, 0);
+    //    }
+    //    else if (Input.GetKeyDown(KeyCode.DownArrow))
+    //    {
+    //        Anim.CrossFade(MoveState, 0.1f, 0, 0);
+    //    }
+    //    else if (Input.GetKeyDown(KeyCode.LeftArrow))
+    //    {
+    //        Anim.CrossFade(MoveState, 0.1f, 0, 0);
+    //    }
+    //    else if (Input.GetKeyDown(KeyCode.RightArrow))
+    //    {
+    //        Anim.CrossFade(MoveState, 0.1f, 0, 0);
+    //    }
+    //}
     //---------------------------------------------------------------------
     // whether arrow key is key up
     //---------------------------------------------------------------------
-    private void KEY_UP ()
-    {
-        if (Input.GetKeyUp(KeyCode.UpArrow))
-        {
-            if(!Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
-            {
-                Anim.CrossFade(IdleState, 0.1f, 0, 0);
-            }
-        }
-        else if (Input.GetKeyUp(KeyCode.DownArrow))
-        {
-            if(!Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
-            {
-                Anim.CrossFade(IdleState, 0.1f, 0, 0);
-            }
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftArrow))
-        {
-            if(!Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.RightArrow))
-            {
-                Anim.CrossFade(IdleState, 0.1f, 0, 0);
-            }
-        }
-        else if (Input.GetKeyUp(KeyCode.RightArrow))
-        {
-            if(!Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.LeftArrow))
-            {
-                Anim.CrossFade(IdleState, 0.1f, 0, 0);
-            }
-        }
-    }
+    //private void KEY_UP ()
+    //{
+    //    if (Input.GetKeyUp(KeyCode.UpArrow))
+    //    {
+    //        if(!Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+    //        {
+    //            Anim.CrossFade(IdleState, 0.1f, 0, 0);
+    //        }
+    //    }
+    //    else if (Input.GetKeyUp(KeyCode.DownArrow))
+    //    {
+    //        if(!Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+    //        {
+    //            Anim.CrossFade(IdleState, 0.1f, 0, 0);
+    //        }
+    //    }
+    //    else if (Input.GetKeyUp(KeyCode.LeftArrow))
+    //    {
+    //        if(!Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.RightArrow))
+    //        {
+    //            Anim.CrossFade(IdleState, 0.1f, 0, 0);
+    //        }
+    //    }
+    //    else if (Input.GetKeyUp(KeyCode.RightArrow))
+    //    {
+    //        if(!Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.LeftArrow))
+    //        {
+    //            Anim.CrossFade(IdleState, 0.1f, 0, 0);
+    //        }
+    //    }
+    //}
     //---------------------------------------------------------------------
     // damage
     //---------------------------------------------------------------------
     private void Damage ()
     {
         // Damaged by outside field.
-        if(Input.GetKeyUp(KeyCode.S))
+        //if(Input.GetKeyUp(KeyCode.S))
         {
             Anim.CrossFade(SurprisedState, 0.1f, 0, 0);
             HP--;
@@ -295,7 +295,7 @@ public class GhostScript : MonoBehaviour
     //---------------------------------------------------------------------
     private void Respawn ()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        //if(Input.GetKeyDown(KeyCode.Space))
         {
             // player HP
             HP = maxHP;

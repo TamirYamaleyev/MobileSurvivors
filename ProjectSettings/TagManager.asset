@@ -8,6 +8,10 @@ TagManager:
   - Projectile
   - Bullet
   - Obstacle
+  - WeakEnemy
+  - StrongEnemy
+  - FastEnemy
+  - TankyEnemy
   layers:
   - Default
   - TransparentFX
@@ -16,7 +20,7 @@ TagManager:
   - Water
   - UI
   - Enemy
-  - 
+  - Player
   - 
   - 
   - 

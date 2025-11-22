@@ -5,6 +5,7 @@ public class InputHandler : MonoBehaviour
 {
     public static event Action<Vector2> OnMove;
     public static event Action OnDash;
+    public static event Action<int> OnTakeDamage;
 
     // Update is called once per frame
     void Update()
@@ -21,6 +22,11 @@ public class InputHandler : MonoBehaviour
     public void DashButtonPressed()
     {
         OnDash?.Invoke();
+    }
+
+    public void TakeDamage(int amount)
+    {
+        OnTakeDamage?.Invoke(amount);
     }
 
     void CheckMovement()
