@@ -3,6 +3,10 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class EnemyAI : MonoBehaviour
 {
+    public int maxHealth = 100;
+    private int currentHealth;
+    public int attack = 3;
+
     public float moveSpeed = 3f;         // Movement speed
     public float stopDistance = 1.5f;    // How close to get before stopping
     public float rotationSpeed = 10f;    // How fast enemy rotates to face player
@@ -13,6 +17,8 @@ public class EnemyAI : MonoBehaviour
 
     void OnEnable()
     {
+        currentHealth = maxHealth;
+
         if (rb == null)
             rb = GetComponent<Rigidbody>();
 
@@ -60,8 +66,16 @@ public class EnemyAI : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
     }
 
+    public void TakeDamage(int amount)
+    {
+        currentHealth -= amount;
+
+        if (currentHealth <= 0) Die();
+    }
+
     public void Die()
     {
-
+        // Give EXP
+        ObjectPooler.Instance.ReturnToPool(gameObject);
     }
 }

@@ -700,6 +700,7 @@ GameObject:
   - component: {fileID: 837157459}
   - component: {fileID: 837157462}
   - component: {fileID: 837157463}
+  - component: {fileID: 837157464}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -774,13 +775,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 837157458}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6694548, y: 0, z: 0, w: 0.74285275}
+  m_LocalRotation: {x: 0.6691307, y: 0, z: 0, w: 0.7431448}
   m_LocalPosition: {x: 0, y: 65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 84.05, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 84, y: 0, z: 0}
 --- !u!114 &837157462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -839,8 +840,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   target: {fileID: 1432980575}
   smoothSpeed: 10
-  height: 30
+  landscapeHeight: 30
+  portraitHeight: 40
   offset: {x: 0, y: 0, z: 0}
+--- !u!114 &837157464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837157458}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3439bc38026991345a5c8aa0fa35d0f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  portraitFOV: 50
+  landscapeFOV: 70
 --- !u!1 &871231520
 GameObject:
   m_ObjectHideFlags: 0
