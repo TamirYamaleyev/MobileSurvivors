@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
   speed: 25
-  dashSpeed: 15
+  dashSpeed: 50
   dashDuration: 0.2
   dashCooldown: 2
   attackRate: 0.5

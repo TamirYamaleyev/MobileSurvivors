@@ -1,48 +1,34 @@
-using System;
 using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
     public VirtualJoystick joystick;
 
-    public static event Action<Vector2> OnMove;
-    public static event Action OnDash;
+    private PlayerControls controls;
+    public bool DashPressed { get; set; } = false;
+    public Vector2 MoveInput { get; private set; }
+
+    void Awake()
+    {
+        controls = new PlayerControls();
+        controls.Player.Dash.performed += ctx => DashPressed = true;
+    }
+
+    void OnEnable() => controls.Enable();
+    void OnDisable() => controls.Disable();
 
     void Update()
     {
-        CheckMovement();
-        CheckDash();
+        Vector2 move = controls.Player.Move.ReadValue<Vector2>();
+
+        if (joystick != null && joystick.InputVector.sqrMagnitude > 0.01f)
+            move = joystick.InputVector;
+
+        MoveInput = move;
     }
 
-    void CheckMovement()
-    {
-        Vector2 move = Vector2.zero;
-
-        // Keyboard input
-        move += new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
-        // Joystick input
-        if (joystick != null)
-            move += new Vector2(joystick.Horizontal(), joystick.Vertical());
-
-        // Ignore tiny input
-        if (move.sqrMagnitude < 0.01f)
-            move = Vector2.zero;
-        else
-            move.Normalize();
-
-        OnMove?.Invoke(move);
-    }
-
-    void CheckDash()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-            OnDash?.Invoke();
-    }
-
-    // Call this from the UI dash button
     public void DashButtonPressed()
     {
-        OnDash?.Invoke();
+        DashPressed = true;
     }
 }

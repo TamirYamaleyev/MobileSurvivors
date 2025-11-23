@@ -1227,6 +1227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b23cb1b885d29342b93559c0274cdee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  joystickBG: {fileID: 0}
   handle: {fileID: 794969739}
   handleRange: 50
 --- !u!1 &794969738
@@ -2116,9 +2117,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: 4966be360b23fa948baf0a6e58406c29, type: 2}
-  projectilePrefab: {fileID: 0}
-  shootPoint: {fileID: 0}
-  dashTimeRemaining: 2
 --- !u!54 &1432980574
 Rigidbody:
   m_ObjectHideFlags: 0

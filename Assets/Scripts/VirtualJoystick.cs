@@ -1,39 +1,54 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class VirtualJoystick : MonoBehaviour
+public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
-    public RectTransform handle;
-    public float handleRange = 50f;
+    public RectTransform joystickBG;  // Background area
+    public RectTransform handle;      // The knob
+    public float handleRange = 100f;  // Max distance handle can move
 
-    private Vector2 inputVector = Vector2.zero;
-    private Vector2 startPos;
+    private Vector2 inputVector;
 
-    void Start()
+    // Called when pointer/touch starts on joystickBG
+    public void OnPointerDown(PointerEventData eventData)
     {
-        startPos = handle.anchoredPosition;
+        OnDrag(eventData);
     }
 
-    void Update()
+    // Called while dragging
+    public void OnDrag(PointerEventData eventData)
     {
-        // Only works with touch or mouse
-        if (Input.GetMouseButton(0))
-        {
-            Vector2 pos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                handle.parent as RectTransform,
-                Input.mousePosition, null, out pos
-            );
-            inputVector = Vector2.ClampMagnitude(pos / handleRange, 1f);
-            handle.anchoredPosition = inputVector * handleRange;
-        }
-        else
-        {
-            inputVector = Vector2.zero;
-            handle.anchoredPosition = startPos;
-        }
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            joystickBG, 
+            eventData.position, 
+            eventData.pressEventCamera, 
+            out localPoint
+        );
+
+        // normalize relative to joystickBG radius
+        Vector2 normalized = localPoint / (joystickBG.sizeDelta / 2f);
+        inputVector = Vector2.ClampMagnitude(normalized, 1f);
+
+        // move handle
+        handle.anchoredPosition = inputVector * (joystickBG.sizeDelta / 2f);
     }
 
-    public float Horizontal() => inputVector.x;
-    public float Vertical() => inputVector.y;
+    // Called when touch ends
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        inputVector = Vector2.zero;
+        handle.anchoredPosition = Vector2.zero;
+    }
+
+    // Public getter for input (normalized direction)
+    public Vector2 InputVector
+    {
+        get
+        {
+            if (inputVector.sqrMagnitude > 0.01f)
+                return inputVector.normalized; // always returns direction only
+            return Vector2.zero;
+        }
+    }
 }
