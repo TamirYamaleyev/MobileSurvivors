@@ -1572,7 +1572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1c891903c76d6b468b6035b0ee3c274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  Timer: {fileID: 0}
+  Timer: {fileID: 1940955692}
   flashDuration: 0.15
   flashColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &1940955692
