@@ -600,6 +600,7 @@ GameObject:
   - component: {fileID: 385900924}
   - component: {fileID: 385900923}
   - component: {fileID: 385900922}
+  - component: {fileID: 385900925}
   m_Layer: 5
   m_Name: DashButton
   m_TagString: Untagged
@@ -722,6 +723,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 385900920}
   m_CullTransparentMesh: 1
+--- !u!114 &385900925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385900920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36dc8dae11399904faab82ba99ac7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DashButtonCooldown
+  player: {fileID: 1432980573}
+  cooldownOverlay: {fileID: 1120704241}
 --- !u!1 &492858923
 GameObject:
   m_ObjectHideFlags: 0
@@ -1725,7 +1740,6 @@ GameObject:
   - component: {fileID: 1120704239}
   - component: {fileID: 1120704242}
   - component: {fileID: 1120704241}
-  - component: {fileID: 1120704240}
   m_Layer: 5
   m_Name: CooldownOverlay
   m_TagString: Untagged
@@ -1752,20 +1766,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1120704240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1120704238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36dc8dae11399904faab82ba99ac7fa7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  player: {fileID: 0}
-  cooldownOverlay: {fileID: 0}
 --- !u!114 &1120704241
 MonoBehaviour:
   m_ObjectHideFlags: 0

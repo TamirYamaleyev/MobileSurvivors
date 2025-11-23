@@ -91,6 +91,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         currentHealth -= amount;
+        Debug.Log(currentHealth);
 
         // Update Healthbar
 
@@ -110,6 +111,7 @@ public class PlayerController : MonoBehaviour
     private void Die()
     {
         // Restart Game
+        Time.timeScale = 0f;
     }
 
     // ---------------- Getters ----------------
