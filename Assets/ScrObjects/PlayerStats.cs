@@ -11,4 +11,5 @@ public class PlayerStats : ScriptableObject
     public float attackRate = 0.5f;
     public float damage = 1f;
     public float maxHealth = 100f;
+    public float invincibilityDuration = 1f;
 }

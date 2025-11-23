@@ -5,6 +5,9 @@ public class PlayerController : MonoBehaviour
     private InputHandler input;
     public PlayerStats stats;
 
+    private float currentHealth;
+    private float invincibilityTimer = 0f;
+
     private Rigidbody rb;
 
     private Vector2 moveDir;
@@ -13,13 +16,13 @@ public class PlayerController : MonoBehaviour
     private float dashCooldown;
     private Vector3 dashDirection;
 
-    public float DashCooldown => dashCooldown;
-
     void Start()
     {
         input = GetComponent<InputHandler>();
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        currentHealth = stats.maxHealth;
     }
 
     void Update()
@@ -44,6 +47,10 @@ public class PlayerController : MonoBehaviour
             input.DashPressed = false;
             TryDash();
         }
+
+        // Invincibility countdown
+        if (invincibilityTimer > 0)
+            invincibilityTimer -= Time.deltaTime;
     }
 
     private void TryDash()
@@ -76,4 +83,36 @@ public class PlayerController : MonoBehaviour
         if (moveDir.sqrMagnitude > 0.01f)
             transform.forward = new Vector3(moveDir.x, 0, moveDir.y);
     }
+
+    public void TakeDamage(float amount)
+    {
+        // iFrame check
+        if (invincibilityTimer > 0)
+            return;
+
+        currentHealth -= amount;
+
+        // Update Healthbar
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+        else
+        {
+            // SFX
+            // iFrame
+        }
+
+        invincibilityTimer = stats.invincibilityDuration;
+    }
+
+    private void Die()
+    {
+        // Restart Game
+    }
+
+    // ---------------- Getters ----------------
+    public float DashCooldown => dashCooldown;
+    public float CurrentHealth => currentHealth;
 }
