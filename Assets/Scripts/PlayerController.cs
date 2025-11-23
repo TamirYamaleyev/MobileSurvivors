@@ -1,5 +1,3 @@
-using System;
-using System.Xml;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -12,15 +10,17 @@ public class PlayerController : MonoBehaviour
     public Transform shootPoint;
 
     private Vector2 moveDirection;
-    private float attackCooldown;
-    private float dashCooldownTimer;
-    private bool isDashing = false;
-    private float dashTime;
-    private float currentHealth;
+    private Vector2 lastMoveDirection;
 
+    private bool isDashing = false;
+    private float dashTimeRemaining = 0f;
+    private float dashCooldownTimer = 0f;
+    private Vector3 dashDirection;
+
+    private float attackCooldown;
+    private float currentHealth;
     private Rigidbody rb;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentHealth = stats.maxHealth;
@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     void OnEnable()
     {
         InputHandler.OnMove += HandleMove;
-        InputHandler.OnDash += HandleDash;
+        InputHandler.OnDash += HandleDash; // Listen for dash button press
     }
 
     void OnDisable()
@@ -42,68 +42,74 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        float currentSpeed = isDashing ? stats.dashSpeed : stats.speed;
-
-        if (moveDirection == Vector2.zero)
-            rb.linearVelocity = Vector3.zero;
+        if (isDashing)
+        {
+            rb.linearVelocity = dashDirection * stats.dashSpeed;
+        }
         else
-            rb.linearVelocity = new Vector3(moveDirection.x, 0, moveDirection.y) * currentSpeed;
+        {
+            Vector3 movement = new Vector3(moveDirection.x, 0, moveDirection.y) * stats.speed;
+            rb.linearVelocity = movement;
 
-        if (moveDirection != Vector2.zero)
-            transform.forward = new Vector3(moveDirection.x, 0, moveDirection.y);
+            if (moveDirection != Vector2.zero)
+                transform.forward = new Vector3(moveDirection.x, 0, moveDirection.y);
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Automatic shooting
+        // Dash timer countdown
+        if (isDashing)
+        {
+            dashTimeRemaining -= Time.deltaTime;
+            if (dashTimeRemaining <= 0f)
+                isDashing = false;
+        }
+
+        // Dash cooldown countdown
+        if (dashCooldownTimer > 0f)
+            dashCooldownTimer -= Time.deltaTime;
+
+        // Shooting
         attackCooldown -= Time.deltaTime;
         if (attackCooldown <= 0f)
         {
             Shoot();
             attackCooldown = stats.attackRate;
         }
-
-        // Dash timer
-        if (isDashing)
-        {
-            dashTime -= Time.deltaTime;
-            if (dashTime <= 0f)
-                isDashing = false;
-        }
-
-        dashCooldownTimer -= Time.deltaTime;
-    }
-
-    public Vector3 GetFacingDirection()
-    {
-        return transform.forward; // or whatever your facing logic is
     }
 
     void HandleMove(Vector2 dir)
     {
-        moveDirection = dir.magnitude > 0.01f ? dir : Vector2.zero;
+        moveDirection = dir;
+
+        if (moveDirection.sqrMagnitude > 0.001f)
+            lastMoveDirection = moveDirection;
     }
 
     void HandleDash()
     {
-        if (dashCooldownTimer <= 0f && moveDirection != Vector2.zero)
-        {
-            isDashing = true;
-            dashTime = stats.dashDuration;
-            dashCooldownTimer = stats.dashCooldown;
-        }
+        // Don't dash if cooldown active or already dashing
+        if (dashCooldownTimer > 0f || isDashing)
+            return;
+
+        // Dash in the current facing direction
+        Vector3 dashDir = transform.forward;
+        if (dashDir.sqrMagnitude < 0.001f)
+            return; // Don't dash if no facing direction
+
+        isDashing = true;
+        dashTimeRemaining = stats.dashDuration;
+        dashCooldownTimer = stats.dashCooldown;
+        dashDirection = dashDir.normalized;
     }
 
     void Shoot()
     {
-        if (projectilePrefab)
+        if (projectilePrefab && shootPoint)
         {
-            //GameObject proj = Instantiate(projectilePrefab, shootPoint.position, shootPoint.rotation);
-
-            //var projScript = proj.GetComponent<Projectile>();
-            //if (projScript != null)
-            //    projScript.damage = stats.damage;
+            // Instantiate(projectilePrefab, shootPoint.position, shootPoint.rotation);
+            // Optional: add projectile damage logic here if needed
         }
     }
 
@@ -114,5 +120,8 @@ public class PlayerController : MonoBehaviour
             Die();
     }
 
-    void Die() => gameObject.SetActive(false);
+    void Die()
+    {
+        gameObject.SetActive(false);
+    }
 }
