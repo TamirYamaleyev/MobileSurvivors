@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
+    public VirtualJoystick joystick;
+
     public static event Action<Vector2> OnMove;
     public static event Action OnDash;
     public static event Action<int> OnTakeDamage;
@@ -31,9 +33,27 @@ public class InputHandler : MonoBehaviour
 
     void CheckMovement()
     {
-        Vector2 move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Vector2 move = Vector2.zero;
+
+        // Keyboard / old Input system
+        move.x += Input.GetAxisRaw("Horizontal");
+        move.y += Input.GetAxisRaw("Vertical");
+
+        // Joystick input
+        if (joystick != null)
+        {
+            move.x += joystick.Horizontal();
+            move.y += joystick.Vertical();
+        }
+
+        // Clamp magnitude so diagonal isn’t faster
+        move = Vector2.ClampMagnitude(move, 1f);
+
+        // Fire the event
         OnMove?.Invoke(move);
     }
+
+
 
     void CheckDash()
     {
