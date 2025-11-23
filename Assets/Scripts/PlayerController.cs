@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     private float dashCooldown;
     private Vector3 dashDirection;
 
+    public float DashCooldown => dashCooldown;
+
     void Start()
     {
         input = GetComponent<InputHandler>();
