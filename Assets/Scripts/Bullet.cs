@@ -1,32 +1,69 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
 {
-    public float damage = 1f;
+    [Header("Projectile Settings")]
+    public float speed = 20f;
+    public float lifetime = 5f;  // Destroy after this time
 
-    private void OnTriggerEnter(Collider other)
+    private float damage;
+    private Vector3 direction;
+    private Rigidbody rb;
+
+    private void Awake()
     {
-        // Hit enemies only
-        if (other.CompareTag("Enemy"))
-        {
-            // Here you could call enemy.TakeDamage(damage) if you implement it
-            // Example: other.GetComponent<EnemyHealth>()?.TakeDamage(damage);
-
-            // Return bullet to the pool
-            ObjectPooler.Instance.ReturnToPool(gameObject);
-        }
-
-        // Optional: return bullet if it hits walls/obstacles
-        if (other.CompareTag("Obstacle"))
-        {
-            ObjectPooler.Instance.ReturnToPool(gameObject);
-        }
+        rb = GetComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.isKinematic = true; // Using MovePosition instead of physics velocity
     }
 
     private void OnEnable()
     {
-        // Reset Rigidbody velocity so pooling doesn�t carry old speed
-        if (TryGetComponent<Rigidbody>(out Rigidbody rb))
-            rb.linearVelocity = Vector3.zero;
+        // Auto-destroy after lifetime
+        Invoke(nameof(DestroyProjectile), lifetime);
+    }
+
+    private void OnDisable()
+    {
+        CancelInvoke();
+    }
+
+    private void FixedUpdate()
+    {
+        if (direction != Vector3.zero)
+        {
+            rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
+        }
+    }
+
+    public void SetDamage(float dmg)
+    {
+        damage = dmg;
+    }
+
+    public void SetDirection(Vector3 dir)
+    {
+        direction = dir.normalized;
+        transform.forward = direction;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Only react to objects on the Enemy layer
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            EnemyAI enemy = other.GetComponent<EnemyAI>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage);
+                DestroyProjectile();
+            }
+        }
+    }
+
+    private void DestroyProjectile()
+    {
+        Destroy(gameObject);
     }
 }
