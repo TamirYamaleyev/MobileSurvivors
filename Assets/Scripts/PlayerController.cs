@@ -126,6 +126,7 @@ public class PlayerController : MonoBehaviour
     public void LoadHealth(float savedHealth)
     {
         currentHealth = savedHealth;
+        healthBar.UpdateHealthBar(currentHealth, stats.maxHealth);
     }
     public void LoadScore(int savedScore)
     {

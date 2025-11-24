@@ -44,4 +44,11 @@ public class BGMVolumeSlider : MonoBehaviour
         // Save preference
         PlayerPrefs.SetFloat(exposedParam, value);
     }
+
+    public void SetSliderValue(float value)
+    {
+        slider.value = value;
+        ApplyVolume(value); // update the mixer
+    }
+
 }

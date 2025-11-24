@@ -49,12 +49,19 @@ public class SaveLoadPanelController : MonoBehaviour
     {
         SaveData data = new SaveData();
 
-        // Player data
+        // Player
         data.saveName = "Slot " + (slotIndex + 1);
         data.sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         data.playerPosition = new float[3] { player.transform.position.x, player.transform.position.y, player.transform.position.z };
         data.playerHealth = player.CurrentHealth;
-        data.playerScore = player.Score;
+        data.playerScore = player.Score; // make sure your player has a Score field
+
+        // Timer
+        data.elapsedTime = FindAnyObjectByType<LevelTimerHUD>().ElapsedTime; // make a public getter
+
+        // Audio
+        data.sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
+        data.bgmVolume = PlayerPrefs.GetFloat("BGMVolume", 1f);
 
         // Enemies
         EnemyAI[] activeEnemies = ObjectPooler.Instance.GetActiveEnemies();
@@ -73,45 +80,54 @@ public class SaveLoadPanelController : MonoBehaviour
 
         string json = JsonUtility.ToJson(data, true);
         string path = GetSavePath(slotIndex);
-        File.WriteAllText(path, json);
+        System.IO.File.WriteAllText(path, json);
 
-        Debug.Log($"Saved to slot {slotIndex + 1}");
         UpdateSlotUI();
     }
+
 
     private void LoadFromSlot(int slotIndex)
     {
         string path = GetSavePath(slotIndex);
-        if (!File.Exists(path))
-        {
-            Debug.LogWarning("Save slot empty!");
-            return;
-        }
+        if (!System.IO.File.Exists(path)) return;
 
-        string json = File.ReadAllText(path);
+        string json = System.IO.File.ReadAllText(path);
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-        // Move player
+        // Player
         player.transform.position = new Vector3(data.playerPosition[0], data.playerPosition[1], data.playerPosition[2]);
         player.LoadHealth(data.playerHealth);
         player.LoadScore(data.playerScore);
 
-        // Clear current enemies
+        // Timer
+        LevelTimerHUD timer = FindAnyObjectByType<LevelTimerHUD>();
+        if (timer != null)
+            timer.SetElapsedTime(data.elapsedTime); // make a public setter
+
+        // Audio
+        PlayerPrefs.SetFloat("SFXVolume", data.sfxVolume);
+        PlayerPrefs.SetFloat("BGMVolume", data.bgmVolume);
+        PlayerPrefs.Save();
+
+        SFXVolumeSlider sfxSlider = FindAnyObjectByType<SFXVolumeSlider>();
+        if (sfxSlider != null) sfxSlider.SetSliderValue(data.sfxVolume);
+
+        BGMVolumeSlider bgmSlider = FindAnyObjectByType<BGMVolumeSlider>();
+        if (bgmSlider != null) bgmSlider.SetSliderValue(data.bgmVolume);
+
+        // Enemies
         ObjectPooler.Instance.ReturnAllEnemiesToPool();
 
-        // Spawn saved enemies
         foreach (EnemyData eData in data.enemies)
         {
             Vector3 pos = new Vector3(eData.position[0], eData.position[1], eData.position[2]);
             GameObject enemyObj = ObjectPooler.Instance.SpawnEnemy(eData.enemyType, pos, Quaternion.identity);
-
             EnemyAI ai = enemyObj.GetComponent<EnemyAI>();
             if (ai != null)
                 ai.CurrentHealth = eData.health;
         }
-
-        Debug.Log($"Loaded slot {slotIndex + 1}");
     }
+
 
     private string GetSavePath(int slotIndex) => Path.Combine(saveFolder, $"slot_{slotIndex + 1}.json");
     #endregion

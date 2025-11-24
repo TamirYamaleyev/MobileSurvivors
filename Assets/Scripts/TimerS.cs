@@ -72,4 +72,12 @@ public class LevelTimerHUD : MonoBehaviour
 
        Timer.color = originalColor;
     }
+
+    public void SetElapsedTime(float time)
+    {
+        elapsedTime = time;
+        UpdateTimerDisplay(time);
+    }
+
+    public float ElapsedTime => elapsedTime;
 }
