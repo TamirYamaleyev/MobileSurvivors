@@ -16,6 +16,8 @@ MonoBehaviour:
   dashSpeed: 50
   dashDuration: 0.2
   dashCooldown: 2
-  attackRate: 0.5
-  damage: 1
+  attackCooldown: 1
+  attackDamage: 1
+  projectileSpeed: 150
   maxHealth: 100
+  invincibilityDuration: 1

@@ -7190,7 +7190,7 @@ MonoBehaviour:
   - WeakEnemy
   - StrongEnemy
   - TankyEnemy
-  spawnInterval: 2
+  spawnInterval: 5
   player: {fileID: 0}
   spawnOffset: {x: 40, y: 0, z: 40}
 --- !u!4 &1736869520

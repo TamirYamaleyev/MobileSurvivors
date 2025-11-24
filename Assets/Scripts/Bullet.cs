@@ -4,7 +4,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [Header("Projectile Settings")]
-    public float speed = 20f;
+    public float speed = 150f;
     public float lifetime = 5f;  // Destroy after this time
 
     private float damage;
