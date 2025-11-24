@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 
     private float currentHealth;
     private float invincibilityTimer = 0f;
+    private int score;
 
     private Rigidbody rb;
 
@@ -84,6 +85,11 @@ public class PlayerController : MonoBehaviour
             transform.forward = new Vector3(moveDir.x, 0, moveDir.y);
     }
 
+    public void AddScore(int amount)
+    {
+        score += amount;
+    }
+
     public void TakeDamage(float amount)
     {
         // iFrame check
@@ -114,7 +120,13 @@ public class PlayerController : MonoBehaviour
         Time.timeScale = 0f;
     }
 
+    public void LoadHealth(float savedHealth)
+    {
+        currentHealth = savedHealth;
+    }
+
     // ---------------- Getters ----------------
     public float DashCooldown => dashCooldown;
     public float CurrentHealth => currentHealth;
+    public float Score => score;
 }

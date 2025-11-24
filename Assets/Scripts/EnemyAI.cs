@@ -3,6 +3,12 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class EnemyAI : MonoBehaviour
 {
+    [Header("Audio")]
+    public AudioClip attackSFX;
+    public AudioClip hurtSFX;
+    public AudioClip deathSFX;
+    private AudioSource audioSource;
+
     [Header("Stats")]
     public float maxHealth = 100;
     private float currentHealth;
@@ -25,6 +31,10 @@ public class EnemyAI : MonoBehaviour
 
     void OnEnable()
     {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+
         currentHealth = maxHealth;
 
         if (rb == null)
@@ -86,16 +96,20 @@ public class EnemyAI : MonoBehaviour
             PlayerController playerCtrl = hit.GetComponent<PlayerController>();
             if (playerCtrl != null)
             {
-                // Damage + optional knockback
                 Vector3 hitDir = (playerCtrl.transform.position - transform.position).normalized;
                 playerCtrl.TakeDamage(attack);
 
+                // Play attack sound
+                audioSource.pitch = Random.Range(0.95f, 1.05f);
+
+                if (attackSFX != null && audioSource != null)
+                    audioSource.PlayOneShot(attackSFX);
+
                 // Start cooldown
                 attackTimer = attackCooldown;
-
-                // Only hit one player at a time
                 break;
             }
+
         }
     }
 
@@ -110,11 +124,25 @@ public class EnemyAI : MonoBehaviour
         currentHealth -= amount;
 
         if (currentHealth <= 0) Die();
+
+        else
+        {
+            audioSource.pitch = Random.Range(0.95f, 1.05f);
+
+            if (hurtSFX != null && audioSource != null)
+                audioSource.PlayOneShot(hurtSFX);
+        }
     }
 
     public void Die()
     {
+        audioSource.pitch = Random.Range(0.95f, 1.05f);
+
+        if (deathSFX != null && audioSource != null)
+            audioSource.PlayOneShot(deathSFX);
+
         // Give Score
+
         ObjectPooler.Instance.ReturnToPool(gameObject);
     }
 
