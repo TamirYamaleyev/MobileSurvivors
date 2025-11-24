@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     private float dashCooldown;
     private Vector3 dashDirection;
 
+    public HealthBar healthBar;
+
     void Start()
     {
         input = GetComponent<InputHandler>();
@@ -97,9 +99,10 @@ public class PlayerController : MonoBehaviour
             return;
 
         currentHealth -= amount;
-        Debug.Log(currentHealth);
+        currentHealth = Mathf.Max(currentHealth, 0);
 
-        // Update Healthbar
+        if (healthBar != null)
+            healthBar.UpdateHealthBar(currentHealth, stats.maxHealth);
 
         if (currentHealth <= 0)
         {

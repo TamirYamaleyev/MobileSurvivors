@@ -17,9 +17,8 @@ public class LevelTimerHUD : MonoBehaviour
 
     void Start()
     {
-        if (Timer != null)
-            originalColor = Timer.color;
-        
+        originalColor = Timer.color;
+        Timer.enableAutoSizing = false; // Important
         UpdateTimerDisplay(0);
     }
 
@@ -44,7 +43,7 @@ public class LevelTimerHUD : MonoBehaviour
         int milliseconds = Mathf.FloorToInt((time * 1000f) % 1000);
 
         // Format: MM:SS:MMM
-        Timer.text = $"{minutes:00}:{seconds:00}:{milliseconds:000}";
+        Timer.text = $"{minutes:00}:{seconds:00}";
     }
 
     private IEnumerator ColorFlash()
