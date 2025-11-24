@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenuController : MonoBehaviour
 {
@@ -46,5 +47,25 @@ public class PauseMenuController : MonoBehaviour
 
         Time.timeScale = 1f; // resume game
         AudioListener.pause = false;
+    }
+
+    public void RestartGame()
+    {
+        // Reload the currently active scene
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
+    }
+
+    public void QuitGame()
+    {
+
+        // If running in the editor, stop playing
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        // If running a build, quit the application
+        Application.Quit();
+#endif
+
     }
 }

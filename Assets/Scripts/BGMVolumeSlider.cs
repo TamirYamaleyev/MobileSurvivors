@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class SFXVolumeSlider : MonoBehaviour
+public class BGMVolumeSlider : MonoBehaviour
 {
     [Header("Audio Mixer")]
     public AudioMixer mixer;          // Assign your AudioMixer
