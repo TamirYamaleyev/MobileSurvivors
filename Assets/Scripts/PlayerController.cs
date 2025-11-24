@@ -124,9 +124,13 @@ public class PlayerController : MonoBehaviour
     {
         currentHealth = savedHealth;
     }
+    public void LoadScore(int savedScore)
+    {
+        score = savedScore;
+    }
 
     // ---------------- Getters ----------------
     public float DashCooldown => dashCooldown;
     public float CurrentHealth => currentHealth;
-    public float Score => score;
+    public int Score => score;
 }

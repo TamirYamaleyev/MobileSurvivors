@@ -5,6 +5,8 @@ public class PauseMenuController : MonoBehaviour
     [Header("UI Panel")]
     public GameObject pausePanel; // Assign your SaveLoadPanel here
 
+    private bool isPaused = false;
+
     void Start()
     {
         if (pausePanel != null)
@@ -22,19 +24,28 @@ public class PauseMenuController : MonoBehaviour
 
     public void TogglePausePanel()
     {
-        if (pausePanel != null)
-            pausePanel.SetActive(!pausePanel.activeSelf);
+        if (pausePanel == null) return;
+
+        isPaused = !isPaused;
+        pausePanel.SetActive(isPaused);
+        Time.timeScale = isPaused ? 0f : 1f; // Pause or resume
     }
 
     public void ShowPausePanel()
     {
-        if (pausePanel != null)
-            pausePanel.SetActive(true);
+        if (pausePanel == null) return;
+
+        isPaused = true;
+        pausePanel.SetActive(true);
+        Time.timeScale = 0f;
     }
 
     public void HidePausePanel()
     {
-        if (pausePanel != null)
-            pausePanel.SetActive(false);
+        if (pausePanel == null) return;
+
+        isPaused = false;
+        pausePanel.SetActive(false);
+        Time.timeScale = 1f;
     }
 }

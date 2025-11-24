@@ -1,31 +1,26 @@
-using System.IO;
 using UnityEngine;
+using System.IO;
 
 public static class SaveSystem
 {
-    public static void SaveGame(SaveData data)
+    public static void SaveGame(int slotIndex, SaveData data)
     {
+        string path = Path.Combine(Application.persistentDataPath, "Save" + slotIndex + ".json");
         string json = JsonUtility.ToJson(data, true);
-        string path = Path.Combine(Application.persistentDataPath, data.saveName + ".json");
         File.WriteAllText(path, json);
-        Debug.Log("Saved to: " + path);
+        Debug.Log("Saved slot " + slotIndex + " to: " + path);
     }
 
-    public static SaveData LoadGame(string saveName)
+    public static SaveData LoadGame(int slotIndex)
     {
-        string path = Path.Combine(Application.persistentDataPath, saveName + ".json");
+        string path = Path.Combine(Application.persistentDataPath, "Save" + slotIndex + ".json");
         if (!File.Exists(path))
         {
-            Debug.LogWarning("Save file not found: " + path);
+            Debug.LogWarning("No save found in slot " + slotIndex);
             return null;
         }
 
         string json = File.ReadAllText(path);
         return JsonUtility.FromJson<SaveData>(json);
-    }
-
-    public static string[] GetAllSaves()
-    {
-        return Directory.GetFiles(Application.persistentDataPath, "*.json");
     }
 }
