@@ -1,91 +1,147 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.IO;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class SaveLoadPanelController : MonoBehaviour
 {
-    public SaveSlot[] slots;    // All 5 slots
-    public GameObject panel;    // The panel itself
-    public Transform player;    // Player object
-    private PlayerController playerController;
+    [Header("UI References")]
+    public GameObject panel;                 // The Save/Load panel
+    public Transform slotContainer;          // Parent of all slots
+    public Button backButton;                // Back button to hide panel
 
-    void Awake()
-    {
-        playerController = player.GetComponent<PlayerController>();
-    }
+    [Header("Player Reference")]
+    public PlayerController player;          // Assign your player object here
 
-    void OnEnable()
-    {
-        RefreshSlots();
-    }
+    private const int slotCount = 5;
+    private string saveFolder;
 
-    // Updates all slots UI
-    void RefreshSlots()
+    void Start()
     {
-        for (int i = 0; i < slots.Length; i++)
+        saveFolder = Application.persistentDataPath + "/saves";
+        if (!Directory.Exists(saveFolder))
+            Directory.CreateDirectory(saveFolder);
+
+        panel.SetActive(false);
+        backButton.onClick.AddListener(HidePanel);
+
+        // Initialize slots
+        for (int i = 0; i < slotCount; i++)
         {
-            string path = Path.Combine(Application.persistentDataPath, "Save" + i + ".json");
-            if (File.Exists(path))
-            {
-                string json = File.ReadAllText(path);
-                SaveData data = JsonUtility.FromJson<SaveData>(json);
-                slots[i].SetSlot(data.saveName);
-            }
-            else
-            {
-                slots[i].SetSlot(null);
-            }
+            int index = i;
+            Transform slot = slotContainer.GetChild(i);
 
-            int index = i; // Capture for lambda
-            slots[i].saveButton.onClick.RemoveAllListeners();
-            slots[i].saveButton.onClick.AddListener(() => SaveToSlot(index));
+            Button saveBtn = slot.Find("SaveButton").GetComponent<Button>();
+            Button loadBtn = slot.Find("LoadButton").GetComponent<Button>();
 
-            slots[i].loadButton.onClick.RemoveAllListeners();
-            slots[i].loadButton.onClick.AddListener(() => LoadFromSlot(index));
+            saveBtn.onClick.AddListener(() => SaveToSlot(index));
+            loadBtn.onClick.AddListener(() => LoadFromSlot(index));
         }
     }
 
-    // Save current player data to slot
-    public void SaveToSlot(int slotIndex)
-    {
-        SaveData data = new SaveData();
-        data.saveName = "Save " + (slotIndex + 1);
-        data.sceneName = SceneManager.GetActiveScene().name;
-        data.playerPosition = new float[3]
-        {
-            player.position.x,
-            player.position.y,
-            player.position.z
-        };
-        data.playerHealth = playerController.CurrentHealth;
-        data.playerScore = playerController.Score;
-
-        SaveSystem.SaveGame(slotIndex, data);
-        RefreshSlots();
-    }
-
-    // Load player data from slot
-    public void LoadFromSlot(int slotIndex)
-    {
-        SaveData data = SaveSystem.LoadGame(slotIndex);
-        if (data == null) return;
-
-        // Load scene if different
-        if (SceneManager.GetActiveScene().name != data.sceneName)
-        {
-            SceneManager.LoadScene(data.sceneName);
-            // Optionally: load player position after scene loads
-            // You can add a callback or use a singleton to store SaveData until scene is loaded
-        }
-
-        // Set player state
-        player.position = new Vector3(data.playerPosition[0], data.playerPosition[1], data.playerPosition[2]);
-        playerController.LoadHealth(data.playerHealth);
-        playerController.LoadScore(data.playerScore);
-
-        Debug.Log("Loaded slot " + slotIndex);
-    }
-
+    #region Panel Controls
     public void ShowPanel() => panel.SetActive(true);
     public void HidePanel() => panel.SetActive(false);
+    #endregion
+
+    #region Save / Load
+    private void SaveToSlot(int slotIndex)
+    {
+        SaveData data = new SaveData();
+
+        // Player data
+        data.saveName = "Slot " + (slotIndex + 1);
+        data.sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        data.playerPosition = new float[3] { player.transform.position.x, player.transform.position.y, player.transform.position.z };
+        data.playerHealth = player.CurrentHealth;
+        data.playerScore = player.Score;
+
+        // Enemies
+        EnemyAI[] activeEnemies = ObjectPooler.Instance.GetActiveEnemies();
+        data.enemies = new EnemyData[activeEnemies.Length];
+
+        for (int i = 0; i < activeEnemies.Length; i++)
+        {
+            EnemyAI enemy = activeEnemies[i];
+            data.enemies[i] = new EnemyData
+            {
+                enemyType = enemy.GetComponent<PooledObject>().poolTag,
+                position = new float[3] { enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z },
+                health = enemy.CurrentHealth
+            };
+        }
+
+        string json = JsonUtility.ToJson(data, true);
+        string path = GetSavePath(slotIndex);
+        File.WriteAllText(path, json);
+
+        Debug.Log($"Saved to slot {slotIndex + 1}");
+        UpdateSlotUI();
+    }
+
+    private void LoadFromSlot(int slotIndex)
+    {
+        string path = GetSavePath(slotIndex);
+        if (!File.Exists(path))
+        {
+            Debug.LogWarning("Save slot empty!");
+            return;
+        }
+
+        string json = File.ReadAllText(path);
+        SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+        // Move player
+        player.transform.position = new Vector3(data.playerPosition[0], data.playerPosition[1], data.playerPosition[2]);
+        player.LoadHealth(data.playerHealth);
+        player.LoadScore(data.playerScore);
+
+        // Clear current enemies
+        ObjectPooler.Instance.ReturnAllEnemiesToPool();
+
+        // Spawn saved enemies
+        foreach (EnemyData eData in data.enemies)
+        {
+            Vector3 pos = new Vector3(eData.position[0], eData.position[1], eData.position[2]);
+            GameObject enemyObj = ObjectPooler.Instance.SpawnEnemy(eData.enemyType, pos, Quaternion.identity);
+
+            EnemyAI ai = enemyObj.GetComponent<EnemyAI>();
+            if (ai != null)
+                ai.CurrentHealth = eData.health;
+        }
+
+        Debug.Log($"Loaded slot {slotIndex + 1}");
+    }
+
+    private string GetSavePath(int slotIndex) => Path.Combine(saveFolder, $"slot_{slotIndex + 1}.json");
+    #endregion
+
+    #region Slot UI
+    private void UpdateSlotUI()
+    {
+        for (int i = 0; i < slotCount; i++)
+        {
+            string path = GetSavePath(i);
+            Transform slot = slotContainer.GetChild(i);
+
+            if (slot == null)
+            {
+                Debug.LogWarning($"Slot {i} is missing!");
+                continue;
+            }
+
+            TMP_Text label = slot.Find("Background/Text")?.GetComponent<TMP_Text>();
+            if (label == null)
+            {
+                Debug.LogWarning($"Label missing in slot {i}");
+                continue;
+            }
+
+            if (File.Exists(path))
+                label.text = $"{i + 1}\n(Saved)";
+            else
+                label.text = $"{i + 1}\n(Empty)";
+        }
+    }
+    #endregion
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ObjectPooler : MonoBehaviour
@@ -101,7 +102,35 @@ public class ObjectPooler : MonoBehaviour
             obj.transform.parent = poolParents[pooledObj.poolTag];
         }
     }
+
+    // Returns all active enemies across all pools
+    public EnemyAI[] GetActiveEnemies()
+    {
+        return poolDictionary.Values
+            .SelectMany(queue => queue)
+            .Where(obj => obj.activeInHierarchy)
+            .Select(obj => obj.GetComponent<EnemyAI>())
+            .Where(ai => ai != null)
+            .ToArray();
+    }
+
+    // Returns all active enemies to the pool
+    public void ReturnAllEnemiesToPool()
+    {
+        foreach (EnemyAI enemy in GetActiveEnemies())
+        {
+            ReturnToPool(enemy.gameObject);
+        }
+    }
+
+    // Spawn enemy by pool tag
+    public GameObject SpawnEnemy(string tag, Vector3 position, Quaternion rotation)
+    {
+        return SpawnFromPool(tag, position, rotation);
+    }
 }
+
+
 
 // Simple helper component to store pool tag
 public class PooledObject : MonoBehaviour

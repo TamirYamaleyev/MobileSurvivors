@@ -152,4 +152,10 @@ public class EnemyAI : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
+
+    public float CurrentHealth
+    {
+        get => currentHealth;
+        set => currentHealth = value;
+    }
 }

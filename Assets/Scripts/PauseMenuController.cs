@@ -15,37 +15,36 @@ public class PauseMenuController : MonoBehaviour
 
     void Update()
     {
-        // Press Escape / Back button to toggle panel for testing
+        // Press Escape / Back button to toggle panel
         if (Input.GetKeyDown(KeyCode.Escape))
-        {
             TogglePausePanel();
-        }
     }
 
     public void TogglePausePanel()
     {
-        if (pausePanel == null) return;
-
-        isPaused = !isPaused;
-        pausePanel.SetActive(isPaused);
-        Time.timeScale = isPaused ? 0f : 1f; // Pause or resume
+        if (isPaused)
+            ResumeGame();
+        else
+            PauseGame();
     }
 
-    public void ShowPausePanel()
+    public void PauseGame()
     {
-        if (pausePanel == null) return;
-
         isPaused = true;
-        pausePanel.SetActive(true);
-        Time.timeScale = 0f;
+        if (pausePanel != null)
+            pausePanel.SetActive(true);
+
+        Time.timeScale = 0f; // freeze the game
+        AudioListener.pause = true; // optional: pause all audio
     }
 
-    public void HidePausePanel()
+    public void ResumeGame()
     {
-        if (pausePanel == null) return;
-
         isPaused = false;
-        pausePanel.SetActive(false);
-        Time.timeScale = 1f;
+        if (pausePanel != null)
+            pausePanel.SetActive(false);
+
+        Time.timeScale = 1f; // resume game
+        AudioListener.pause = false;
     }
 }
