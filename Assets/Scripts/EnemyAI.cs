@@ -142,6 +142,7 @@ public class EnemyAI : MonoBehaviour
             audioSource.PlayOneShot(deathSFX);
 
         // Give Score
+        player.GetComponent<PlayerController>().AddScore(scoreToGive); 
 
         ObjectPooler.Instance.ReturnToPool(gameObject);
     }

@@ -4,6 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     private InputHandler input;
     public PlayerStats stats;
+    public ScoreHUD scoreUI;
 
     private float currentHealth;
     private float invincibilityTimer = 0f;
@@ -90,6 +91,7 @@ public class PlayerController : MonoBehaviour
     public void AddScore(int amount)
     {
         score += amount;
+        scoreUI.UpdateScoreHUD(score);
     }
 
     public void TakeDamage(float amount)

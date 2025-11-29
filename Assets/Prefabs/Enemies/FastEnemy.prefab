@@ -232,7 +232,7 @@ MonoBehaviour:
   attackSFX: {fileID: 8300000, guid: 25d29e5fe8172ca42ada7e197aaab44d, type: 3}
   hurtSFX: {fileID: 8300000, guid: a2022d102bfb0914c8b4b78c53efe7c7, type: 3}
   deathSFX: {fileID: 8300000, guid: e16498ff6e67d7e46a890b811a18e0b3, type: 3}
-  maxHealth: 80
+  maxHealth: 60
   attack: 2
   attackRadius: 1.5
   attackCooldown: 1

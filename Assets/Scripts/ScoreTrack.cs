@@ -10,7 +10,7 @@ public class ScoreHUD : MonoBehaviour
         UpdateScoreHUD(0);
     }
 
-    private void UpdateScoreHUD(int score)
+    public void UpdateScoreHUD(int score)
     {
         Score.text = "Score:\n" + score;
     }
