@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 20026413}
   - component: {fileID: 20026412}
   m_Layer: 0
-  m_Name: Survivors
+  m_Name: Text2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -268,7 +268,6 @@ GameObject:
   - component: {fileID: 47594320}
   - component: {fileID: 47594319}
   - component: {fileID: 47594318}
-  - component: {fileID: 47594322}
   m_Layer: 0
   m_Name: Exit
   m_TagString: Untagged
@@ -352,9 +351,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 47594322}
-        m_TargetAssemblyTypeName: SceneButton, Assembly-CSharp
-        m_MethodName: QuitGame
+      - m_Target: {fileID: 47594318}
+        m_TargetAssemblyTypeName: StarterUI, Assembly-CSharp
+        m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -402,20 +401,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 47594316}
   m_CullTransparentMesh: 1
---- !u!114 &47594322
+--- !u!1 &104719440
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 104719442}
+  - component: {fileID: 104719441}
+  m_Layer: 0
+  m_Name: DailyNotificationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &104719441
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 47594316}
+  m_GameObject: {fileID: 104719440}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e99f7a93e66d264448e6fcb26d2665e5, type: 3}
+  m_Script: {fileID: 11500000, guid: f09329172e12f6a49b54db4e9a321132, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneButton
-  dailyBonus: {fileID: 0}
-  dailyBonusImage: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::DailyNotificationManager
+--- !u!4 &104719442
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104719440}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &225361064
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,6 +936,50 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &951883694
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 951883696}
+  - component: {fileID: 951883695}
+  m_Layer: 0
+  m_Name: DailyBonusManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &951883695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951883694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea34daf7b28f244ab919c025ee747a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DailyBonusManager
+--- !u!4 &951883696
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951883694}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -23.87222, y: -11.66248, z: 20.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1103757682
 GameObject:
   m_ObjectHideFlags: 0
@@ -916,6 +989,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1103757683}
+  - component: {fileID: 1103757684}
   m_Layer: 0
   m_Name: MainMenu
   m_TagString: Untagged
@@ -932,13 +1006,25 @@ Transform:
   m_GameObject: {fileID: 1103757682}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.65237, y: -8.69507, z: 20.2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 293513694}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1103757684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1103757682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c77866144102c34fb048e3576e0b14d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &1132867801
 GameObject:
   m_ObjectHideFlags: 0
@@ -951,7 +1037,7 @@ GameObject:
   - component: {fileID: 1132867804}
   - component: {fileID: 1132867803}
   m_Layer: 0
-  m_Name: Mobile
+  m_Name: Text1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1607,6 +1693,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1881464169}
   m_CullTransparentMesh: 1
+--- !u!1 &1957276690
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1957276692}
+  - component: {fileID: 1957276691}
+  m_Layer: 0
+  m_Name: AnalyticsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1957276691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957276690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89905dcb6db64c442b9cf8c93bf34be6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnalyticsManager
+--- !u!4 &1957276692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957276690}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -23.87222, y: -11.66248, z: 20.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1995279137
 GameObject:
   m_ObjectHideFlags: 0
@@ -1890,8 +2020,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e99f7a93e66d264448e6fcb26d2665e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  dailyBonus: {fileID: 0}
-  dailyBonusImage: {fileID: 0}
+  dailyBonus: {fileID: 951883695}
+  dailyBonusImage: {fileID: 525714879}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1902,3 +2032,6 @@ SceneRoots:
   - {fileID: 1197990161}
   - {fileID: 1103757683}
   - {fileID: 1600000968}
+  - {fileID: 104719442}
+  - {fileID: 951883696}
+  - {fileID: 1957276692}

@@ -1,3 +1,4 @@
+using Unity.Services.Analytics;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -27,6 +28,10 @@ public class PlayerController : MonoBehaviour
         rb.freezeRotation = true;
 
         currentHealth = stats.maxHealth;
+
+
+        // ----Analytics----
+        AnalyticsManager.Instance.TrackSessionStart();
     }
 
     void Update()
@@ -92,6 +97,11 @@ public class PlayerController : MonoBehaviour
     {
         score += amount;
         scoreUI.UpdateScoreHUD(score);
+
+        if (score >= 1000)
+        {
+            AnalyticsService.Instance.RecordEvent("milestone_score_1000");
+        }
     }
 
     public void TakeDamage(float amount)

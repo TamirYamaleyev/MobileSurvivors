@@ -21,12 +21,21 @@ public class SceneButton : MonoBehaviour
     {
         if (dailyBonus != null && dailyBonus.IsEligibleForBonus())
         {
-            dailyBonus.UpdateLastPlayTime();
-            FindAnyObjectByType<DailyNotificationManager>().ScheduleDailyBonusNotification();
-            Debug.Log("Daily Bonus Claimed!");
+            ClaimDailyBonus();
         }
         
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void ClaimDailyBonus()
+    {
+        dailyBonus.UpdateLastPlayTime();
+
+        FindAnyObjectByType<DailyNotificationManager>().ScheduleDailyBonusNotification();
+
+        AnalyticsManager.Instance.TrackDailyBonus();
+
+        Debug.Log("Daily Bonus Claimed!");
     }
 
     public void QuitGame()
