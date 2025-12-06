@@ -145,6 +145,13 @@ public class PlayerController : MonoBehaviour
         score = savedScore;
     }
 
+    public void Heal(float amount)
+    {
+            currentHealth += amount;
+        
+    }
+    
+
     // ---------------- Getters ----------------
     public float DashCooldown => dashCooldown;
     public float CurrentHealth => currentHealth;

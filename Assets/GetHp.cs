@@ -1,25 +1,26 @@
+using System;
 using UnityEngine;
 
 public class HpPot : MonoBehaviour
 {
-    public GameObject hpPot;
     public int hpAmount = 30;
-    public GameObject player;
+    public string playerLayer =  "Player";
+    
 
     void Start()
     {
         
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Hit: " + collision.gameObject.name);
-
-        if (collision.gameObject == player)
+        if (other.gameObject.CompareTag(playerLayer) && other.gameObject.TryGetComponent(out PlayerController player) )
         {
             Debug.Log("Player picked up HP!");
-            
+            player.Heal(hpAmount);
+            Destroy(gameObject);
         }
     }
+    
     
 }
