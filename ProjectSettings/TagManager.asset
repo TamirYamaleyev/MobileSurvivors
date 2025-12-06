@@ -13,6 +13,7 @@ TagManager:
   - TankyEnemy
   - WeakEnemy
   - KeepButton
+  - HpPot
   layers:
   - Default
   - TransparentFX
