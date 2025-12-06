@@ -1,9 +1,11 @@
+using Unity.Services.Analytics;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     private InputHandler input;
     public PlayerStats stats;
+    public ScoreHUD scoreUI;
 
     private float currentHealth;
     private float invincibilityTimer = 0f;
@@ -26,6 +28,10 @@ public class PlayerController : MonoBehaviour
         rb.freezeRotation = true;
 
         currentHealth = stats.maxHealth;
+
+
+        // ----Analytics----
+        AnalyticsManager.Instance.TrackSessionStart();
     }
 
     void Update()
@@ -90,6 +96,12 @@ public class PlayerController : MonoBehaviour
     public void AddScore(int amount)
     {
         score += amount;
+        scoreUI.UpdateScoreHUD(score);
+
+        if (score >= 1000)
+        {
+            AnalyticsService.Instance.RecordEvent("milestone_score_1000");
+        }
     }
 
     public void TakeDamage(float amount)
