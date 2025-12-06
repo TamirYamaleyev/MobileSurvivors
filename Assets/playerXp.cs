@@ -1,65 +1,45 @@
 using UnityEngine;
-using UnityEngine.UI;
-#if TMP_PRESENT
-using TMPro;
-#endif
 
-public class PlayerXP : MonoBehaviour
+public class PlayerXp : MonoBehaviour
 {
-    [Header("XP Stats")]
-    public int level = 1;
-    public int currentXP = 0;
-    public int xpToNextLevel = 100;
+    public float currentXp = 0f;
+    public float maxXp = 100f;
 
-    [Header("UI")]
-    public Slider xpSlider;
-#if TMP_PRESENT
-    public TextMeshProUGUI xpText;
-#else
-    public Text xpTextLegacy;
-#endif
+    public GettingXp xpBar; // reference to UI bar
+    public UiLevelDisplay levelText;
 
-    private void Start()
+    public int level = 1;  
+
+    void Start()
     {
-        UpdateUI();
+        if (xpBar != null)
+        xpBar.UpdateXpBar(currentXp, maxXp);
+        
+        if (levelText != null)
+        levelText.UpdateLevelText();
     }
 
-    // Call this when the player picks up XP shards
-    public void AddXP(int amount)
+    public void AddXp (float amount)
     {
-        currentXP += amount;
+        currentXp += amount;
 
-        // Handle level up
-        while (currentXP >= xpToNextLevel)
+        // If XP reaches or exceeds the bar end it levels up
+        if (currentXp >= maxXp)
         {
-            currentXP -= xpToNextLevel;
+            currentXp -= maxXp;  
             LevelUp();
         }
 
-        UpdateUI();
+        xpBar.UpdateXpBar(currentXp, maxXp);
     }
 
-    private void LevelUp()
+    void LevelUp()
     {
         level++;
-        xpToNextLevel = Mathf.RoundToInt(xpToNextLevel * 1.15f); // Progressive increase
         Debug.Log("LEVEL UP! New Level: " + level);
-    }
+        levelText.UpdateLevelText();
 
-    private void UpdateUI()
-    {
-        if (xpSlider != null)
-        {
-            xpSlider.maxValue = xpToNextLevel;
-            xpSlider.value = currentXP;
-        }
-
-#if TMP_PRESENT
-        if (xpText != null)
-            xpText.text = $"Level {level} — {currentXP}/{xpToNextLevel} XP";
-#else
-        if (xpTextLegacy != null)
-            xpTextLegacy.text = $"Level {level} — {currentXP}/{xpToNextLevel} XP";
-#endif
+        xpBar.UpdateXpBar(currentXp, maxXp);
+        
     }
 }

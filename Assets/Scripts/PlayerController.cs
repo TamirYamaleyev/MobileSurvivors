@@ -20,6 +20,13 @@ public class PlayerController : MonoBehaviour
     private Vector3 dashDirection;
 
     public HealthBar healthBar;
+    
+    public PlayerXp xpSystem;
+    public void AddXp(int amount)
+    {
+        if (xpSystem != null)
+            xpSystem.AddXp(amount);
+    }
 
     void Start()
     {
@@ -140,6 +147,7 @@ public class PlayerController : MonoBehaviour
         currentHealth = savedHealth;
         healthBar.UpdateHealthBar(currentHealth, stats.maxHealth);
     }
+
     public void LoadScore(int savedScore)
     {
         score = savedScore;
@@ -147,13 +155,16 @@ public class PlayerController : MonoBehaviour
 
     public void Heal(float amount)
     {
-            currentHealth += amount;
-        
+        currentHealth += amount;
+
     }
+
     
 
     // ---------------- Getters ----------------
     public float DashCooldown => dashCooldown;
     public float CurrentHealth => currentHealth;
     public int Score => score;
+
+   
 }
