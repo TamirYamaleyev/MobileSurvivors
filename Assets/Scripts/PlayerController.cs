@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Unity.Services.Analytics;
 using UnityEngine;
 
@@ -28,7 +29,7 @@ public class PlayerController : MonoBehaviour
             xpSystem.AddXp(amount);
     }
 
-    void Start()
+    async void Start()
     {
         input = GetComponent<InputHandler>();
         rb = GetComponent<Rigidbody>();
@@ -38,6 +39,9 @@ public class PlayerController : MonoBehaviour
 
 
         // ----Analytics----
+        while (AnalyticsManager.Instance == null)
+            await Task.Yield();
+
         AnalyticsManager.Instance.TrackSessionStart();
     }
 
