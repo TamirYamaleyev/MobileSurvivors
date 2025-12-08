@@ -21,13 +21,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 dashDirection;
 
     public HealthBar healthBar;
-    
-    public PlayerXp xpSystem;
-    public void AddXp(int amount)
-    {
-        if (xpSystem != null)
-            xpSystem.AddXp(amount);
-    }
 
     async void Start()
     {

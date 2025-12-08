@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class PlayerXp : MonoBehaviour
 {
-    public float currentXp = 0f;
+    [SerializeField]
+    private float currentXp = 0f;
     public float maxXp = 100f;
 
     public GettingXp xpBar; // reference to UI bar
@@ -13,10 +14,10 @@ public class PlayerXp : MonoBehaviour
     void Start()
     {
         if (xpBar != null)
-        xpBar.UpdateXpBar(currentXp, maxXp);
+            xpBar.UpdateXpBar(currentXp, maxXp);
         
         if (levelText != null)
-        levelText.UpdateLevelText();
+            levelText.UpdateLevelText(level);
     }
 
     public void AddXp (float amount)
@@ -26,7 +27,9 @@ public class PlayerXp : MonoBehaviour
         // If XP reaches or exceeds the bar end it levels up
         if (currentXp >= maxXp)
         {
-            currentXp -= maxXp;  
+            currentXp = 0;
+            maxXp *= 1.1f;
+
             LevelUp();
         }
 
@@ -36,10 +39,10 @@ public class PlayerXp : MonoBehaviour
     void LevelUp()
     {
         level++;
+
         Debug.Log("LEVEL UP! New Level: " + level);
-        levelText.UpdateLevelText();
+        levelText.UpdateLevelText(level);
 
         xpBar.UpdateXpBar(currentXp, maxXp);
-        
     }
 }

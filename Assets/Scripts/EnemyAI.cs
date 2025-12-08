@@ -22,6 +22,9 @@ public class EnemyAI : MonoBehaviour
     public float rotationSpeed = 10f;
 
     public int scoreToGive = 10;
+    public float expToGive = 10;
+    public GameObject expOrb;
+    public float expOrbSpawnHeight = 2f;
 
     private Transform player;
     private Rigidbody rb;
@@ -141,8 +144,11 @@ public class EnemyAI : MonoBehaviour
         if (deathSFX != null && audioSource != null)
             audioSource.PlayOneShot(deathSFX);
 
-        // Give Score
-        player.GetComponent<PlayerController>().AddScore(scoreToGive); 
+        player.GetComponent<PlayerController>().AddScore(scoreToGive);
+
+        GameObject orbInstance = Instantiate(expOrb, new Vector3(transform.position.x, expOrbSpawnHeight, transform.position.z), transform.rotation);
+        XpOrb orbScript = orbInstance.GetComponent<XpOrb>();
+        orbScript.xpAmount = expToGive;
 
         ObjectPooler.Instance.ReturnToPool(gameObject);
     }

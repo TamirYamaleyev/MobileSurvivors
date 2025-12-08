@@ -46,8 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f90bb602c192674398baee92a724fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  xpAmount: 50
+  xpAmount: 35
   playerLayer: Player
+  rotationSpeed: 180
 --- !u!65 &910437911652989432
 BoxCollider:
   m_ObjectHideFlags: 0
