@@ -25,6 +25,8 @@ public class EnemyAI : MonoBehaviour
     public float expToGive = 10;
     public GameObject expOrb;
     public float expOrbSpawnHeight = 2f;
+    [Tooltip ("In Percentages 0-100")]
+    public int healthCollectibleDropChange = 15;
 
     public GameObject healthCollectible;
     public float healthCollectibleSpawnHeight = 1f;
@@ -154,7 +156,7 @@ public class EnemyAI : MonoBehaviour
         XpOrb orbScript = orbInstance.GetComponent<XpOrb>();
         orbScript.xpAmount = expToGive;
 
-        if (Random.Range(0, 100) > 50)
+        if (Random.Range(0, 100) < healthCollectibleDropChange)
         {
             Instantiate(healthCollectible, new Vector3(transform.position.x, healthCollectibleSpawnHeight, transform.position.z), transform.rotation);
         }

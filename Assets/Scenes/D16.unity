@@ -2353,9 +2353,10 @@ MonoBehaviour:
   - WeakEnemy
   - StrongEnemy
   - TankyEnemy
-  spawnInterval: 5
+  spawnInterval: 2
   player: {fileID: 0}
-  spawnOffset: {x: 40, y: 0, z: 40}
+  mainCamera: {fileID: 0}
+  spawnHeight: 1
 --- !u!4 &1736869520
 Transform:
   m_ObjectHideFlags: 0
