@@ -9,10 +9,14 @@ public class PlayerXp : MonoBehaviour
     public GettingXp xpBar; // reference to UI bar
     public UiLevelDisplay levelText;
 
+    PlayerController playerContr;
+
     public int level = 1;  
 
     void Start()
     {
+        playerContr = GetComponent<PlayerController>();
+
         if (xpBar != null)
             xpBar.UpdateXpBar(currentXp, maxXp);
         
@@ -36,7 +40,7 @@ public class PlayerXp : MonoBehaviour
         xpBar.UpdateXpBar(currentXp, maxXp);
     }
 
-    void LevelUp()
+    private void LevelUp()
     {
         level++;
 
@@ -44,5 +48,34 @@ public class PlayerXp : MonoBehaviour
         levelText.UpdateLevelText(level);
 
         xpBar.UpdateXpBar(currentXp, maxXp);
+
+        AddStats();
+        playerContr.FullHeal();
+    }
+
+    private void AddStats()
+    {
+        // 1:Speed, 2:AttackCooldown, 3:AttackDamage, 4:MaxHP
+        int statToIncrease = Random.Range(1, 5); 
+
+        switch (statToIncrease)
+        {
+            case 1: 
+                playerContr.speed *= 1.1f;
+                break;
+            case 2:
+                playerContr.attackCooldown /= 1.1f;
+                break;
+            case 3:
+                playerContr.attackDamage *= 1.1f;
+                break;
+            case 4:
+                playerContr.maxHealth *= 1.1f;
+                break;
+
+            default:
+                playerContr.maxHealth *= 1.1f;
+                break;
+        }
     }
 }
