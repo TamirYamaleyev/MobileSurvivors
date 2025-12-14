@@ -243,6 +243,8 @@ MonoBehaviour:
   expToGive: 35
   expOrb: {fileID: 9080485477844863000, guid: 9624d5cc536ebbb43ab3fe6931fd0a49, type: 3}
   expOrbSpawnHeight: 2
+  healthCollectible: {fileID: 8767298756432199263, guid: 40dce1a89e3189f44b315da11f9c40ba, type: 3}
+  healthCollectibleSpawnHeight: 1
   playerLayer:
     serializedVersion: 2
     m_Bits: 128

@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Unity.Services.Analytics;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -7,6 +8,11 @@ public class PlayerController : MonoBehaviour
     private InputHandler input;
     public PlayerStats stats;
     public ScoreHUD scoreUI;
+
+    public float maxHealth;
+    public float speed;
+    public float attackDamage;
+    public float attackCooldown;
 
     private float currentHealth;
     private float invincibilityTimer = 0f;
@@ -24,11 +30,16 @@ public class PlayerController : MonoBehaviour
 
     async void Start()
     {
+        maxHealth = stats.maxHealth;
+        speed = stats.speed;
+        attackDamage = stats.attackDamage;
+        attackCooldown = stats.attackCooldown;
+
         input = GetComponent<InputHandler>();
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
-        currentHealth = stats.maxHealth;
+        currentHealth = maxHealth;
 
 
         // ----Analytics----
@@ -90,7 +101,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        Vector3 movement = new Vector3(moveDir.x, 0, moveDir.y) * stats.speed;
+        Vector3 movement = new Vector3(moveDir.x, 0, moveDir.y) * speed;
         rb.linearVelocity = movement;
 
         if (moveDir.sqrMagnitude > 0.01f)
@@ -118,7 +129,7 @@ public class PlayerController : MonoBehaviour
         currentHealth = Mathf.Max(currentHealth, 0);
 
         if (healthBar != null)
-            healthBar.UpdateHealthBar(currentHealth, stats.maxHealth);
+            healthBar.UpdateHealthBar(currentHealth, maxHealth);
 
         if (currentHealth <= 0)
         {
@@ -142,7 +153,7 @@ public class PlayerController : MonoBehaviour
     public void LoadHealth(float savedHealth)
     {
         currentHealth = savedHealth;
-        healthBar.UpdateHealthBar(currentHealth, stats.maxHealth);
+        healthBar.UpdateHealthBar(currentHealth, maxHealth);
     }
 
     public void LoadScore(int savedScore)
@@ -153,6 +164,13 @@ public class PlayerController : MonoBehaviour
     public void Heal(float amount)
     {
         currentHealth += amount;
+        if (currentHealth > maxHealth)
+            currentHealth = maxHealth;
+    }
+
+    public void FullHeal()
+    {
+        currentHealth = maxHealth;
     }
 
     
