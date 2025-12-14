@@ -9,7 +9,8 @@ public class PlayerXp : MonoBehaviour
     public GettingXp xpBar; // reference to UI bar
     public UiLevelDisplay levelText;
 
-    PlayerController playerContr;
+    private PlayerController playerContr;
+    public LevelUpUIScr levelUpText;
 
     public int level = 1;  
 
@@ -51,6 +52,7 @@ public class PlayerXp : MonoBehaviour
 
         AddStats();
         playerContr.FullHeal();
+        levelUpText.Show();
     }
 
     private void AddStats()
