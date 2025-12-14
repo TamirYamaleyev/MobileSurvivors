@@ -457,6 +457,57 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2269026515806603139, guid: 62470a51f74d5324e90a48d4cef3807d, type: 3}
   m_PrefabInstance: {fileID: 229196090292851149}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &455986908
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 455986909}
+  - component: {fileID: 455986910}
+  m_Layer: 5
+  m_Name: LevelUpUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &455986909
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 455986908}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 476738917}
+  m_Father: {fileID: 492858927}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &455986910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 455986908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fbd9f60c945ac142832f614fef17cdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelUpUIScr
+  showDuration: 2
+  uiText: {fileID: 476738916}
 --- !u!1 &476738916
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,7 +519,6 @@ GameObject:
   - component: {fileID: 476738917}
   - component: {fileID: 476738920}
   - component: {fileID: 476738919}
-  - component: {fileID: 476738918}
   m_Layer: 5
   m_Name: LevelupText
   m_TagString: Untagged
@@ -483,31 +533,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 476738916}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 492858927}
+  m_Father: {fileID: 455986909}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &476738918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 476738916}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fbd9f60c945ac142832f614fef17cdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  showDuration: 2
 --- !u!114 &476738919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -709,7 +746,7 @@ RectTransform:
   - {fileID: 1061812210}
   - {fileID: 1868926615}
   - {fileID: 1892537553266681831}
-  - {fileID: 476738917}
+  - {fileID: 455986909}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1380,6 +1417,67 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1001 &910118662
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4076184247745725816, guid: 9624d5cc536ebbb43ab3fe6931fd0a49, type: 3}
+      propertyPath: xpAmount
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8822380412033719597, guid: 9624d5cc536ebbb43ab3fe6931fd0a49, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.07191849
+      objectReference: {fileID: 0}
+    - target: {fileID: 8822380412033719597, guid: 9624d5cc536ebbb43ab3fe6931fd0a49, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 8822380412033719597, guid: 9624d5cc536ebbb43ab3fe6931fd0a49, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -13.905314
+      objectReference: {fileID: 0}
+    - target: {fileID: 8822380412033719597, guid: 9624d5cc536ebbb43ab3fe6931fd0a49, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8822380412033719597, guid: 9624d5cc536ebbb43ab3fe6931fd0a49, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8822380412033719597, guid: 9624d5cc536ebbb43ab3fe6931fd0a49, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8822380412033719597, guid: 9624d5cc536ebbb43ab3fe6931fd0a49, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8822380412033719597, guid: 9624d5cc536ebbb43ab3fe6931fd0a49, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8822380412033719597, guid: 9624d5cc536ebbb43ab3fe6931fd0a49, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8822380412033719597, guid: 9624d5cc536ebbb43ab3fe6931fd0a49, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9080485477844863000, guid: 9624d5cc536ebbb43ab3fe6931fd0a49, type: 3}
+      propertyPath: m_Name
+      value: CollectibleXP
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9624d5cc536ebbb43ab3fe6931fd0a49, type: 3}
 --- !u!1 &1017647429
 GameObject:
   m_ObjectHideFlags: 0
@@ -2202,7 +2300,7 @@ MonoBehaviour:
   maxXp: 100
   xpBar: {fileID: 1868926620}
   levelText: {fileID: 1868926619}
-  levelUpText: {fileID: 476738918}
+  levelUpText: {fileID: 455986910}
   level: 1
 --- !u!1 &1554405321
 GameObject:
@@ -3377,3 +3475,4 @@ SceneRoots:
   - {fileID: 1601464841}
   - {fileID: 1554405322}
   - {fileID: 619331677}
+  - {fileID: 910118662}
