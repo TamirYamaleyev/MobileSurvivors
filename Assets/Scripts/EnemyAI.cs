@@ -26,6 +26,9 @@ public class EnemyAI : MonoBehaviour
     public GameObject expOrb;
     public float expOrbSpawnHeight = 2f;
 
+    public GameObject healthCollectible;
+    public float healthCollectibleSpawnHeight = 1f;
+
     private Transform player;
     private Rigidbody rb;
 
@@ -149,6 +152,11 @@ public class EnemyAI : MonoBehaviour
         GameObject orbInstance = Instantiate(expOrb, new Vector3(transform.position.x, expOrbSpawnHeight, transform.position.z), transform.rotation);
         XpOrb orbScript = orbInstance.GetComponent<XpOrb>();
         orbScript.xpAmount = expToGive;
+
+        if (Random.Range(0, 100) > 50)
+        {
+            Instantiate(healthCollectible, new Vector3(transform.position.x, healthCollectibleSpawnHeight, transform.position.z), transform.rotation);
+        }
 
         ObjectPooler.Instance.ReturnToPool(gameObject);
     }

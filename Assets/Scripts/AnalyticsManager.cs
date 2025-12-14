@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 public class AnalyticsManager : MonoBehaviour
 {
     public static AnalyticsManager Instance { get; private set; }
+    public GameObject dailyBonusEXPShards;
+    public int dailyBonusShardAmount;
+    public Transform shardDropLocation;
 
     async void Awake()
     {
@@ -32,5 +35,14 @@ public class AnalyticsManager : MonoBehaviour
     {
         AnalyticsService.Instance.RecordEvent("daily_bonus_collected");
         Debug.Log("Analytics: daily_bonus_collected recorded");
+        DropDailyEXPShards();
+    }
+
+    public void DropDailyEXPShards()
+    {
+        for (int i = 0; i < dailyBonusShardAmount; i++)
+        {
+            Instantiate(dailyBonusEXPShards, shardDropLocation.position, shardDropLocation.rotation);
+        }
     }
 }

@@ -5,10 +5,11 @@ public class LevelUpUIScr : MonoBehaviour
 {
     [SerializeField] float showDuration = 2f;
     Coroutine routine;
+    public GameObject uiText;
 
     void Awake()
     {
-        gameObject.SetActive(false);
+        uiText.SetActive(false);
     }
 
     public void Show()
@@ -21,9 +22,9 @@ public class LevelUpUIScr : MonoBehaviour
 
     IEnumerator ShowRoutine()
     {
-        gameObject.SetActive(true);
+        uiText.SetActive(true);
         yield return new WaitForSeconds(showDuration);
-        gameObject.SetActive(false);
+        uiText.SetActive(false);
         routine = null;
     }
 }
